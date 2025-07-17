@@ -31,7 +31,7 @@ export class CoursesController {
     return this.coursesService.getAllCourses();
   }
 
-  //This endpoint will get all the users for an specific user based on it's id
+  //This endpoint will get all the course for an specific user based on it's id
   @UseGuards(JwtAuthGuard)
   @Get('/my-courses')
   getAllCoursesFromUserId(@Request() req) {
@@ -56,6 +56,7 @@ export class CoursesController {
   }
 
   // This endpoint will update a course by the id
+  @UseGuards(JwtAuthGuard)
   @Put('/update-course/:id')
   async updateCourseById(
     @Param('id') id: string,
@@ -75,6 +76,7 @@ export class CoursesController {
   }
 
   // This endpoint wil only updat the grade in the course
+  @UseGuards(JwtAuthGuard)
   @Put('/update-grade/:id')
   async updateGrade(
     @Param('id') id: string,
@@ -91,6 +93,7 @@ export class CoursesController {
   }
 
   //This endpoint will let you delete the course
+  @UseGuards(JwtAuthGuard)
   @Delete('delete-course/:id')
   async deleteCourse(@Param('id') id: string, @Request() req) {
     const courseInfo = await this.coursesService.courseInfoById(id);
