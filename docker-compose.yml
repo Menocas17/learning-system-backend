@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      POSTGRES_USER: menocal
+      POSTGRES_PASSWORD: PwdPostgresRJMC17
+      POSTGRES_DB: learning-sytem
+      JWT_SECRET: a9ec8ac194394709091fac852000a3160fe2081cd9fcecb9f0fcf0f9f055b5f6
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: my-postgres-2-backend
+    environment:
+      POSTGRES_USER: menocal
+      POSTGRES_PASSWORD: PwdPostgresRJMC17
+      POSTGRES_DB: learning-sytem
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

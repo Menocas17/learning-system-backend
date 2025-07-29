@@ -5,6 +5,7 @@ import {
   IsDateString,
   MinLength,
   Max,
+  isBoolean,
 } from 'class-validator';
 
 export class CreateCourseDto {
@@ -15,4 +16,6 @@ export class CreateCourseDto {
   @IsString()
   @MinLength(10)
   description: string;
+
+  is_public: boolean;
 }

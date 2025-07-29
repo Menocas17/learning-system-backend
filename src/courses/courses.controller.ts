@@ -19,6 +19,12 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-guard';
 import { RolesGuard } from 'src/auth/guards/role-guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 
+interface CourseData extends CreateCourseDto {
+  owner_id: string;
+  time_limit: string;
+  is_public: boolean;
+}
+
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
@@ -108,5 +114,11 @@ export class CoursesController {
       message: 'Course deleted succesfully',
       course: deletedCourse,
     };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/public_courses')
+  async getPublicCourses() {
+    return this.coursesService.getAllPublicCourses();
   }
 }

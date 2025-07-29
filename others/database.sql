@@ -18,7 +18,7 @@ CREATE TABLE courses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title VARCHAR(200) NOT NULL,
   description TEXT,
-  grade FLOAT, 
+  grade DEFAULT 0, 
   owner_id UUID REFERENCES users(id) ON DELETE CASCADE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   time_limit TIMESTAMP
@@ -46,3 +46,6 @@ CREATE TABLE subtopics (
 
 ALTER TABLE courses
 ALTER COLUMN grade SET DEFAULT 0;
+
+
+-- docker-compose up --build. to rebuild de docker container

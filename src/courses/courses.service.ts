@@ -60,12 +60,13 @@ export class CoursesService {
   async createCourse(courseData: CourseData) {
     try {
       const result = await this.db.query(
-        'INSERT INTO courses (title, description, owner_id, time_limit) VALUES ($1, $2, $3, $4) RETURNING *',
+        'INSERT INTO courses (title, description, owner_id, time_limit, is_public) VALUES ($1, $2, $3, $4, $5) RETURNING *',
         [
           courseData.title,
           courseData.description,
           courseData.owner_id,
           courseData.time_limit,
+          courseData.is_public,
         ],
       );
 
@@ -144,6 +145,29 @@ export class CoursesService {
     } catch (err) {
       if (err instanceof NotFoundException) throw err;
 
+      throw new InternalServerErrorException(err.message);
+    }
+  }
+
+  //Getting all the courses marked as public
+  async getAllPublicCourses() {
+    try {
+      const result = await this.db.query(
+        `SELECT c.*, u.name AS owner_name
+       FROM courses c
+       JOIN users u ON c.owner_id = u.id
+       WHERE c.is_public IS TRUE`,
+      );
+
+      if (result.rows.length === 0) {
+        throw new NotFoundException(
+          'There are no courses at this moment. Add a new course.',
+        );
+      }
+
+      return result.rows;
+    } catch (err) {
+      if (err instanceof NotFoundException) throw err;
       throw new InternalServerErrorException(err.message);
     }
   }

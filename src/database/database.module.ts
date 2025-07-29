@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const pool = new Pool({
-  host: 'localhost',
+  host: 'db',
   port: 5432,
   user: process.env.POSTGRES_USER! as string,
   password: process.env.POSTGRES_PASSWORD!,
